@@ -1,0 +1,446 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "name": "Untitled",
+      "provenance": [],
+      "authorship_tag": "ABX9TyOTnW/lMjhIztznejFAvsKx",
+      "include_colab_link": true
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    }
+  },
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "view-in-github",
+        "colab_type": "text"
+      },
+      "source": [
+        "<a href=\"https://colab.research.google.com/github/RoheetBakare/intro-to-dl/blob/master/Tic%20Tac%20Toe%20Code\" target=\"_parent\"><img src=\"https://colab.research.google.com/assets/colab-badge.svg\" alt=\"Open In Colab\"/></a>"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "Yg8OwBHOesOH",
+        "outputId": "292de1ba-82f7-471f-bdbb-c55933dc01cb",
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        }
+      },
+      "source": [
+        "  pip install chatterbot \n"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "text": [
+            "Collecting chatterbot\n",
+            "\u001b[?25l  Downloading https://files.pythonhosted.org/packages/7c/21/85c2b114bd9dfabdd46ba58fc4519acdaed45d8c70898d40079e37a45e67/ChatterBot-1.0.8-py2.py3-none-any.whl (63kB)\n",
+            "\r\u001b[K     |█████▏                          | 10kB 18.8MB/s eta 0:00:01\r\u001b[K     |██████████▎                     | 20kB 1.6MB/s eta 0:00:01\r\u001b[K     |███████████████▌                | 30kB 2.1MB/s eta 0:00:01\r\u001b[K     |████████████████████▋           | 40kB 2.4MB/s eta 0:00:01\r\u001b[K     |█████████████████████████▊      | 51kB 1.9MB/s eta 0:00:01\r\u001b[K     |███████████████████████████████ | 61kB 2.2MB/s eta 0:00:01\r\u001b[K     |████████████████████████████████| 71kB 2.0MB/s \n",
+            "\u001b[?25hRequirement already satisfied: pytz in /usr/local/lib/python3.6/dist-packages (from chatterbot) (2018.9)\n",
+            "Requirement already satisfied: sqlalchemy<1.4,>=1.3 in /usr/local/lib/python3.6/dist-packages (from chatterbot) (1.3.20)\n",
+            "Requirement already satisfied: python-dateutil<2.9,>=2.8 in /usr/local/lib/python3.6/dist-packages (from chatterbot) (2.8.1)\n",
+            "Collecting mathparse<0.2,>=0.1\n",
+            "  Downloading https://files.pythonhosted.org/packages/c3/e5/4910fb85950cb960fcf3f5aabe1c8e55f5c9201788a1c1302b570a7e1f84/mathparse-0.1.2-py3-none-any.whl\n",
+            "Requirement already satisfied: six>=1.5 in /usr/local/lib/python3.6/dist-packages (from python-dateutil<2.9,>=2.8->chatterbot) (1.15.0)\n",
+            "Installing collected packages: mathparse, chatterbot\n",
+            "Successfully installed chatterbot-1.0.8 mathparse-0.1.2\n"
+          ],
+          "name": "stdout"
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "GvxLmKaKfbaN",
+        "outputId": "d8dc3c89-e56c-43c4-9b2c-423456a85746",
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        }
+      },
+      "source": [
+        "  pip install chatterbot_corpus"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "text": [
+            "Collecting chatterbot_corpus\n",
+            "\u001b[?25l  Downloading https://files.pythonhosted.org/packages/ed/19/f8b41daf36fe4b0f43e283a820362ffdb2c1128600ab4ee187e84262fa4d/chatterbot_corpus-1.2.0-py2.py3-none-any.whl (117kB)\n",
+            "\r\u001b[K     |██▉                             | 10kB 16.1MB/s eta 0:00:01\r\u001b[K     |█████▋                          | 20kB 1.7MB/s eta 0:00:01\r\u001b[K     |████████▍                       | 30kB 2.2MB/s eta 0:00:01\r\u001b[K     |███████████▏                    | 40kB 2.5MB/s eta 0:00:01\r\u001b[K     |██████████████                  | 51kB 2.0MB/s eta 0:00:01\r\u001b[K     |████████████████▊               | 61kB 2.2MB/s eta 0:00:01\r\u001b[K     |███████████████████▋            | 71kB 2.5MB/s eta 0:00:01\r\u001b[K     |██████████████████████▍         | 81kB 2.7MB/s eta 0:00:01\r\u001b[K     |█████████████████████████▏      | 92kB 2.9MB/s eta 0:00:01\r\u001b[K     |████████████████████████████    | 102kB 2.8MB/s eta 0:00:01\r\u001b[K     |██████████████████████████████▊ | 112kB 2.8MB/s eta 0:00:01\r\u001b[K     |████████████████████████████████| 122kB 2.8MB/s \n",
+            "\u001b[?25hRequirement already satisfied: PyYAML<4.0,>=3.12 in /usr/local/lib/python3.6/dist-packages (from chatterbot_corpus) (3.13)\n",
+            "Installing collected packages: chatterbot-corpus\n",
+            "Successfully installed chatterbot-corpus-1.2.0\n"
+          ],
+          "name": "stdout"
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "4fYRoFEHe39O",
+        "outputId": "227ee46c-390f-4a13-c2b7-cb89f8991a12",
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        }
+      },
+      "source": [
+        "pip install --upgrade chatterbot_corpus\n"
+      ],
+      "execution_count": 2,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "text": [
+            "Collecting chatterbot_corpus\n",
+            "\u001b[?25l  Downloading https://files.pythonhosted.org/packages/ed/19/f8b41daf36fe4b0f43e283a820362ffdb2c1128600ab4ee187e84262fa4d/chatterbot_corpus-1.2.0-py2.py3-none-any.whl (117kB)\n",
+            "\r\u001b[K     |██▉                             | 10kB 17.7MB/s eta 0:00:01\r\u001b[K     |█████▋                          | 20kB 3.6MB/s eta 0:00:01\r\u001b[K     |████████▍                       | 30kB 4.1MB/s eta 0:00:01\r\u001b[K     |███████████▏                    | 40kB 4.1MB/s eta 0:00:01\r\u001b[K     |██████████████                  | 51kB 4.1MB/s eta 0:00:01\r\u001b[K     |████████████████▊               | 61kB 4.6MB/s eta 0:00:01\r\u001b[K     |███████████████████▋            | 71kB 4.8MB/s eta 0:00:01\r\u001b[K     |██████████████████████▍         | 81kB 5.1MB/s eta 0:00:01\r\u001b[K     |█████████████████████████▏      | 92kB 5.3MB/s eta 0:00:01\r\u001b[K     |████████████████████████████    | 102kB 5.5MB/s eta 0:00:01\r\u001b[K     |██████████████████████████████▊ | 112kB 5.5MB/s eta 0:00:01\r\u001b[K     |████████████████████████████████| 122kB 5.5MB/s \n",
+            "\u001b[?25hRequirement already satisfied, skipping upgrade: PyYAML<4.0,>=3.12 in /usr/local/lib/python3.6/dist-packages (from chatterbot_corpus) (3.13)\n",
+            "Installing collected packages: chatterbot-corpus\n",
+            "Successfully installed chatterbot-corpus-1.2.0\n"
+          ],
+          "name": "stdout"
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "_4vfABikh3QA",
+        "outputId": "64d8cc64-a035-44ac-db63-a43a8b524b34",
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        }
+      },
+      "source": [
+        "pip install --upgrade chatterbot\n"
+      ],
+      "execution_count": 3,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "text": [
+            "Collecting chatterbot\n",
+            "\u001b[?25l  Downloading https://files.pythonhosted.org/packages/7c/21/85c2b114bd9dfabdd46ba58fc4519acdaed45d8c70898d40079e37a45e67/ChatterBot-1.0.8-py2.py3-none-any.whl (63kB)\n",
+            "\r\u001b[K     |█████▏                          | 10kB 16.7MB/s eta 0:00:01\r\u001b[K     |██████████▎                     | 20kB 2.9MB/s eta 0:00:01\r\u001b[K     |███████████████▌                | 30kB 3.3MB/s eta 0:00:01\r\u001b[K     |████████████████████▋           | 40kB 3.4MB/s eta 0:00:01\r\u001b[K     |█████████████████████████▊      | 51kB 2.8MB/s eta 0:00:01\r\u001b[K     |███████████████████████████████ | 61kB 3.4MB/s eta 0:00:01\r\u001b[K     |████████████████████████████████| 71kB 2.9MB/s \n",
+            "\u001b[?25hRequirement already satisfied, skipping upgrade: python-dateutil<2.9,>=2.8 in /usr/local/lib/python3.6/dist-packages (from chatterbot) (2.8.1)\n",
+            "Requirement already satisfied, skipping upgrade: sqlalchemy<1.4,>=1.3 in /usr/local/lib/python3.6/dist-packages (from chatterbot) (1.3.20)\n",
+            "Requirement already satisfied, skipping upgrade: pytz in /usr/local/lib/python3.6/dist-packages (from chatterbot) (2018.9)\n",
+            "Collecting mathparse<0.2,>=0.1\n",
+            "  Downloading https://files.pythonhosted.org/packages/c3/e5/4910fb85950cb960fcf3f5aabe1c8e55f5c9201788a1c1302b570a7e1f84/mathparse-0.1.2-py3-none-any.whl\n",
+            "Requirement already satisfied, skipping upgrade: six>=1.5 in /usr/local/lib/python3.6/dist-packages (from python-dateutil<2.9,>=2.8->chatterbot) (1.15.0)\n",
+            "Installing collected packages: mathparse, chatterbot\n",
+            "Successfully installed chatterbot-1.0.8 mathparse-0.1.2\n"
+          ],
+          "name": "stdout"
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "SWIxuz3Os_cT"
+      },
+      "source": [
+        "from  chatterbot import ChatBot"
+      ],
+      "execution_count": 4,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "5lHEVdVJtXhV"
+      },
+      "source": [
+        "from chatterbot.trainers import ListTrainer"
+      ],
+      "execution_count": 5,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "XXfh7HKAthsB"
+      },
+      "source": [
+        "my_bot = ChatBot(name='PyBot' , read_only= True , logic_adapters=['chatterbot.logic.MathematicalEvaluation' , 'chatterbot.logic.BestMatch'])"
+      ],
+      "execution_count": 6,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "90eHKw9WuAe8",
+        "outputId": "1b4cd33f-a8fd-470f-a245-64f595090b86",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 129
+        }
+      },
+      "source": [
+        "small_talk = [ ' hi there! ' ,'hi!','how do you do?', 'how are you?',  'fine, you?', 'always cool.', \n",
+        "'i\\ 1m ok 1, \n",
+        "'glad to hear that.•, \n",
+        "' i \\ • m fine ' , \n",
+        "'glad to hear that. 1, \n",
+        "'i feel awesome', \n",
+        "'excellent, glad to hear that.', \n",
+        "1 not so good• , x\n",
+        "'sorry to hear that. 1, \n",
+        "'what\\'s your name?', \n",
+        "'i\\'m pybot. ask me a math question, please.'] \n"
+      ],
+      "execution_count": 8,
+      "outputs": [
+        {
+          "output_type": "error",
+          "ename": "SyntaxError",
+          "evalue": "ignored",
+          "traceback": [
+            "\u001b[0;36m  File \u001b[0;32m\"<ipython-input-8-2832e0c3150e>\"\u001b[0;36m, line \u001b[0;32m2\u001b[0m\n\u001b[0;31m    'i\\ 1m ok 1,\u001b[0m\n\u001b[0m                 ^\u001b[0m\n\u001b[0;31mSyntaxError\u001b[0m\u001b[0;31m:\u001b[0m EOL while scanning string literal\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "ZjSayjeDu2wf",
+        "outputId": "1a103a24-f848-4ea4-e798-44cbfa2786a9",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 350
+        }
+      },
+      "source": [
+        "from tkinter import *\n",
+        "from tkinter import messagebox\n",
+        "import random as r\n",
+        "def button(frame):          #Function to define a button\n",
+        "    b=Button(frame,padx=1,bg=\"papaya whip\",width=3,text=\"   \",font=('arial',60,'bold'),relief=\"sunken\",bd=10)\n",
+        "    return b\n",
+        "def change_a():             #Function to change the operand for the next player\n",
+        "    global a\n",
+        "    for i in ['O','X']:\n",
+        "        if not(i==a):\n",
+        "            a=i\n",
+        "            break\n",
+        "def reset():                #Resets the game\n",
+        "    global a\n",
+        "    for i in range(3):\n",
+        "        for j in range(3):\n",
+        "                b[i][j][\"text\"]=\" \"\n",
+        "                b[i][j][\"state\"]=NORMAL\n",
+        "    a=r.choice(['O','X'])\n",
+        "def check():                #Checks for victory or Draw\n",
+        "    for i in range(3):\n",
+        "            if(b[i][0][\"text\"]==b[i][1][\"text\"]==b[i][2][\"text\"]==a or b[0][i][\"text\"]==b[1][i][\"text\"]==b[2][i][\"text\"]==a):\n",
+        "                    messagebox.showinfo(\"Congrats!!\",\"'\"+a+\"' has won\")\n",
+        "                    reset()\n",
+        "    if(b[0][0][\"text\"]==b[1][1][\"text\"]==b[2][2][\"text\"]==a or b[0][2][\"text\"]==b[1][1][\"text\"]==b[2][0][\"text\"]==a):\n",
+        "        messagebox.showinfo(\"Congrats!!\",\"'\"+a+\"' has won\")\n",
+        "        reset()   \n",
+        "    elif(b[0][0][\"state\"]==b[0][1][\"state\"]==b[0][2][\"state\"]==b[1][0][\"state\"]==b[1][1][\"state\"]==b[1][2][\"state\"]==b[2][0][\"state\"]==b[2][1][\"state\"]==b[2][2][\"state\"]==DISABLED):\n",
+        "        messagebox.showinfo(\"Tied!!\",\"The match ended in a draw\")\n",
+        "        reset()\n",
+        "def click(row,col):\n",
+        "        b[row][col].config(text=a,state=DISABLED,disabledforeground=colour[a])\n",
+        "        check()\n",
+        "        change_a()\n",
+        "        label.config(text=a+\"'s Chance\")\n",
+        "###############   Main Program #################\n",
+        "root=Tk()                   #Window defined\n",
+        "root.title(\"Tic-Tac-Toe\")   #Title given\n",
+        "a=r.choice(['O','X'])       #Two operators defined\n",
+        "colour={'O':\"deep sky blue\",'X':\"lawn green\"}\n",
+        "b=[[],[],[]]\n",
+        "for i in range(3):\n",
+        "        for j in range(3):\n",
+        "                b[i].append(button(root))\n",
+        "                b[i][j].config(command= lambda row=i,col=j:click(row,col))\n",
+        "                b[i][j].grid(row=i,column=j)\n",
+        "label=Label(text=a+\"'s Chance\",font=('arial',20,'bold'))\n",
+        "label.grid(row=3,column=0,columnspan=3)\n",
+        "root.mainloop()"
+      ],
+      "execution_count": 10,
+      "outputs": [
+        {
+          "output_type": "error",
+          "ename": "TclError",
+          "evalue": "ignored",
+          "traceback": [
+            "\u001b[0;31m---------------------------------------------------------------------------\u001b[0m",
+            "\u001b[0;31mTclError\u001b[0m                                  Traceback (most recent call last)",
+            "\u001b[0;32m<ipython-input-10-66c20f79e66f>\u001b[0m in \u001b[0;36m<module>\u001b[0;34m()\u001b[0m\n\u001b[1;32m     35\u001b[0m         \u001b[0mlabel\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mconfig\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mtext\u001b[0m\u001b[0;34m=\u001b[0m\u001b[0ma\u001b[0m\u001b[0;34m+\u001b[0m\u001b[0;34m\"'s Chance\"\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m     36\u001b[0m \u001b[0;31m###############   Main Program #################\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0;32m---> 37\u001b[0;31m \u001b[0mroot\u001b[0m\u001b[0;34m=\u001b[0m\u001b[0mTk\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;34m)\u001b[0m                   \u001b[0;31m#Window defined\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m\u001b[1;32m     38\u001b[0m \u001b[0mroot\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mtitle\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;34m\"Tic-Tac-Toe\"\u001b[0m\u001b[0;34m)\u001b[0m   \u001b[0;31m#Title given\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m     39\u001b[0m \u001b[0ma\u001b[0m\u001b[0;34m=\u001b[0m\u001b[0mr\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mchoice\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;34m[\u001b[0m\u001b[0;34m'O'\u001b[0m\u001b[0;34m,\u001b[0m\u001b[0;34m'X'\u001b[0m\u001b[0;34m]\u001b[0m\u001b[0;34m)\u001b[0m       \u001b[0;31m#Two operators defined\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n",
+            "\u001b[0;32m/usr/lib/python3.6/tkinter/__init__.py\u001b[0m in \u001b[0;36m__init__\u001b[0;34m(self, screenName, baseName, className, useTk, sync, use)\u001b[0m\n\u001b[1;32m   2021\u001b[0m                 \u001b[0mbaseName\u001b[0m \u001b[0;34m=\u001b[0m \u001b[0mbaseName\u001b[0m \u001b[0;34m+\u001b[0m \u001b[0mext\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m   2022\u001b[0m         \u001b[0minteractive\u001b[0m \u001b[0;34m=\u001b[0m \u001b[0;36m0\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0;32m-> 2023\u001b[0;31m         \u001b[0mself\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mtk\u001b[0m \u001b[0;34m=\u001b[0m \u001b[0m_tkinter\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mcreate\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mscreenName\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0mbaseName\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0mclassName\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0minteractive\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0mwantobjects\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0museTk\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0msync\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0muse\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m\u001b[1;32m   2024\u001b[0m         \u001b[0;32mif\u001b[0m \u001b[0museTk\u001b[0m\u001b[0;34m:\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m   2025\u001b[0m             \u001b[0mself\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0m_loadtk\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n",
+            "\u001b[0;31mTclError\u001b[0m: no display name and no $DISPLAY environment variable"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "dULw0WHuHhOn"
+      },
+      "source": [
+        "from tkinter import *\n",
+        "from tkinter import messagebox\n",
+        "import random as r"
+      ],
+      "execution_count": 11,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "82dRf6jjHzCz"
+      },
+      "source": [
+        "def button(frame):          #Function to define a button\n",
+        "    b=Button(frame,padx=1,bg=\"papaya whip\",width=3,text=\"   \",font=('arial',60,'bold'),relief=\"sunken\",bd=10)\n",
+        "    return b"
+      ],
+      "execution_count": 12,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "DGVYZwQHH1hF"
+      },
+      "source": [
+        "def change_a():             #Function to change the operand for the next player\n",
+        "    global a\n",
+        "    for i in ['O','X']:\n",
+        "        if not(i==a):\n",
+        "            a=i\n",
+        "            break"
+      ],
+      "execution_count": 13,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "E_P1QQq_H4pI"
+      },
+      "source": [
+        "def reset():                #Resets the game\n",
+        "    global a\n",
+        "    for i in range(3):\n",
+        "        for j in range(3):\n",
+        "                b[i][j][\"text\"]=\" \"\n",
+        "                b[i][j][\"state\"]=NORMAL"
+      ],
+      "execution_count": 14,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "tSt6d3z1H7Ak"
+      },
+      "source": [
+        "def check():                #Checks for victory or Draw\n",
+        "    for i in range(3):\n",
+        "            if(b[i][0][\"text\"]==b[i][1][\"text\"]==b[i][2][\"text\"]==a or b[0][i][\"text\"]==b[1][i][\"text\"]==b[2][i][\"text\"]==a):\n",
+        "                    messagebox.showinfo(\"Congrats!!\",\"'\"+a+\"' has won\")\n",
+        "                    reset()\n",
+        "    if(b[0][0][\"text\"]==b[1][1][\"text\"]==b[2][2][\"text\"]==a or b[0][2][\"text\"]==b[1][1][\"text\"]==b[2][0][\"text\"]==a):\n",
+        "        messagebox.showinfo(\"Congrats!!\",\"'\"+a+\"' has won\")\n",
+        "        reset()   \n",
+        "    elif(b[0][0][\"state\"]==b[0][1][\"state\"]==b[0][2][\"state\"]==b[1][0][\"state\"]==b[1][1][\"state\"]==b[1][2][\"state\"]==b[2][0][\"state\"]==b[2][1][\"state\"]==b[2][2][\"state\"]==DISABLED):\n",
+        "        messagebox.showinfo(\"Tied!!\",\"The match ended in a draw\")\n",
+        "        reset()"
+      ],
+      "execution_count": 15,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "wVRwNZSdH8Y4"
+      },
+      "source": [
+        "def click(row,col):\n",
+        "        b[row][col].config(text=a,state=DISABLED,disabledforeground=colour[a])\n",
+        "        check()\n",
+        "        change_a()\n",
+        "        label.config(text=a+\"'s Chance\")\n",
+        "        def click(row,col):\n",
+        "          b[row][col].config(text=a,state=DISABLED,disabledforeground=colour[a])\n",
+        "          check()\n",
+        "          change_a()\n",
+        "          label.config(text=a+\"'s Chance\")"
+      ],
+      "execution_count": 17,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "d9pnHq-eH-OB",
+        "outputId": "ba288763-4eaf-4662-a1ce-edbd7ab4a1fa",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 350
+        }
+      },
+      "source": [
+        "root=Tk()                   #Window defined\n",
+        "root.title(\"Tic-Tac-Toe\")   #Title given\n",
+        "a=r.choice(['O','X'])       #Two operators defined\n",
+        "colour={'O':\"deep sky blue\",'X':\"lawn green\"}\n",
+        "b=[[],[],[]]\n",
+        "for i in range(3):\n",
+        "        for j in range(3):\n",
+        "                b[i].append(button(root))\n",
+        "                b[i][j].config(command= lambda row=i,col=j:click(row,col))\n",
+        "                b[i][j].grid(row=i,column=j)\n",
+        "label=Label(text=a+\"'s Chance\",font=('arial',20,'bold'))\n",
+        "label.grid(row=3,column=0,columnspan=3)\n",
+        "root.mainloop()"
+      ],
+      "execution_count": 18,
+      "outputs": [
+        {
+          "output_type": "error",
+          "ename": "TclError",
+          "evalue": "ignored",
+          "traceback": [
+            "\u001b[0;31m---------------------------------------------------------------------------\u001b[0m",
+            "\u001b[0;31mTclError\u001b[0m                                  Traceback (most recent call last)",
+            "\u001b[0;32m<ipython-input-18-ad36fb51aaec>\u001b[0m in \u001b[0;36m<module>\u001b[0;34m()\u001b[0m\n\u001b[0;32m----> 1\u001b[0;31m \u001b[0mroot\u001b[0m\u001b[0;34m=\u001b[0m\u001b[0mTk\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;34m)\u001b[0m                   \u001b[0;31m#Window defined\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m\u001b[1;32m      2\u001b[0m \u001b[0mroot\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mtitle\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;34m\"Tic-Tac-Toe\"\u001b[0m\u001b[0;34m)\u001b[0m   \u001b[0;31m#Title given\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m      3\u001b[0m \u001b[0ma\u001b[0m\u001b[0;34m=\u001b[0m\u001b[0mr\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mchoice\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;34m[\u001b[0m\u001b[0;34m'O'\u001b[0m\u001b[0;34m,\u001b[0m\u001b[0;34m'X'\u001b[0m\u001b[0;34m]\u001b[0m\u001b[0;34m)\u001b[0m       \u001b[0;31m#Two operators defined\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m      4\u001b[0m \u001b[0mcolour\u001b[0m\u001b[0;34m=\u001b[0m\u001b[0;34m{\u001b[0m\u001b[0;34m'O'\u001b[0m\u001b[0;34m:\u001b[0m\u001b[0;34m\"deep sky blue\"\u001b[0m\u001b[0;34m,\u001b[0m\u001b[0;34m'X'\u001b[0m\u001b[0;34m:\u001b[0m\u001b[0;34m\"lawn green\"\u001b[0m\u001b[0;34m}\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m      5\u001b[0m \u001b[0mb\u001b[0m\u001b[0;34m=\u001b[0m\u001b[0;34m[\u001b[0m\u001b[0;34m[\u001b[0m\u001b[0;34m]\u001b[0m\u001b[0;34m,\u001b[0m\u001b[0;34m[\u001b[0m\u001b[0;34m]\u001b[0m\u001b[0;34m,\u001b[0m\u001b[0;34m[\u001b[0m\u001b[0;34m]\u001b[0m\u001b[0;34m]\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n",
+            "\u001b[0;32m/usr/lib/python3.6/tkinter/__init__.py\u001b[0m in \u001b[0;36m__init__\u001b[0;34m(self, screenName, baseName, className, useTk, sync, use)\u001b[0m\n\u001b[1;32m   2021\u001b[0m                 \u001b[0mbaseName\u001b[0m \u001b[0;34m=\u001b[0m \u001b[0mbaseName\u001b[0m \u001b[0;34m+\u001b[0m \u001b[0mext\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m   2022\u001b[0m         \u001b[0minteractive\u001b[0m \u001b[0;34m=\u001b[0m \u001b[0;36m0\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0;32m-> 2023\u001b[0;31m         \u001b[0mself\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mtk\u001b[0m \u001b[0;34m=\u001b[0m \u001b[0m_tkinter\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mcreate\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mscreenName\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0mbaseName\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0mclassName\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0minteractive\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0mwantobjects\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0museTk\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0msync\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0muse\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m\u001b[1;32m   2024\u001b[0m         \u001b[0;32mif\u001b[0m \u001b[0museTk\u001b[0m\u001b[0;34m:\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m   2025\u001b[0m             \u001b[0mself\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0m_loadtk\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n",
+            "\u001b[0;31mTclError\u001b[0m: no display name and no $DISPLAY environment variable"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "j4K1cqgRIKyV"
+      },
+      "source": [
+        ""
+      ],
+      "execution_count": null,
+      "outputs": []
+    }
+  ]
+}
